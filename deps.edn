@@ -1,0 +1,6 @@
+{:paths ["src/main"]
+ :aliases {:cljs-nrepl
+           {:extra-deps {org.clojure/clojurescript {:mvn/version "1.11.132"}
+                         cider/cider-nrepl {:mvn/version "0.49.0"}
+                         cider/piggieback {:mvn/version "0.5.3"}}
+            :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.piggieback/wrap-cljs-repl]"]}}}
