@@ -130,6 +130,24 @@
   (black-scholes-iv black-scholes-call call-price params))
 
 
+(defn binary-search-fn-solver
+  [fn-to-solve param-gen-fn direction-fn target tolerance left-guess right-guess]
+  "param-gen-fn is provided the 'guess' and should generate the params to send to 
+    'fn-to-solve'
+   direction-fn receives the variance between the computed value and the guess
+   and decides whether to move left or right. Returns true for left and false for right
+  "
+  (let [mid (/ (+ left-guess right-guess) 2)
+        computed (fn-to-solve (param-gen-fn mid))
+        variance (- computed target)
+        move-left (direction-fn variance)]
+    (if (<= (abs variance) tolerance)
+      mid
+      (recur fn-to-solve param-gen-fn direction-fn target tolerance
+             (if move-left mid left-guess)
+             (if move-left right-guess mid)))))
+
+
 (defn black-scholes-spot-solver-from-call
   ([params] (black-scholes-spot-solver-from-call params 0.0 1000000.0))
   ([params left-bound right-bound]
@@ -155,24 +173,6 @@
                             SPOT-SOLVER-TOLERANCE
                             left-bound
                             right-bound)))
-
-
-(defn binary-search-fn-solver
-  [fn-to-solve param-gen-fn direction-fn target tolerance left-guess right-guess]
-  "param-gen-fn is provided the 'guess' and should generate the params to send to 
-    'fn-to-solve'
-   direction-fn receives the variance between the computed value and the guess
-   and decides whether to move left or right. Returns true for left and false for right
-  "
-  (let [mid (/ (+ left-guess right-guess) 2)
-        computed (fn-to-solve (param-gen-fn mid))
-        variance (- computed target)
-        move-left (direction-fn variance)]
-    (if (<= (abs variance) tolerance)
-      mid
-      (recur fn-to-solve param-gen-fn direction-fn target tolerance
-             (if move-left mid left-guess)
-             (if move-left right-guess mid)))))
 
 (comment 
   (def o {::underlying-spot 309
