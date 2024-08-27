@@ -25,7 +25,7 @@
 (defn sq [x] (* x x))
 
 (def TOLERANCE (pow 10 -6))
-(def IV-INITIAL-GUESS 0.25)
+(def IV-INITIAL-GUESS 1.25)
 
 (def a1 0.319381530)
 (def a2 -0.356563782)
