@@ -25,8 +25,7 @@
 (defn sq [x] (* x x))
 
 (def TOLERANCE (pow 10 -6))
-(def IV-INITIAL-GUESS 1.25)
-
+(def IV-INITIAL-GUESS 0.20)
 (def a1 0.319381530)
 (def a2 -0.356563782)
 (def a3 1.781477937)
@@ -173,21 +172,3 @@
                             SPOT-SOLVER-TOLERANCE
                             left-bound
                             right-bound)))
-
-(comment 
-  (def o {::underlying-spot 309
-          ::strike 250
-          ::maturity-in-years 1
-          ::volatility-percent 0.15
-          ::risk-free-rate 0.03
-          ::continuous-dividend-rate 0.04
-          ::call-price 56.03
-          ::put-price 10.41})
-
-  (black-scholes-spot-solver-from-call o)
-  (black-scholes-spot-solver-from-put o)
-  (black-scholes-call o)
-  (black-scholes-put o)
-  (black-scholes-vega o)
-  (black-scholes-call-iv o)
-  (black-scholes-put-iv o))
